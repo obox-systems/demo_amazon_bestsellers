@@ -1,6 +1,6 @@
 # Amazon bestsellers demo
 
-This program will scrape the title, link, rating and number of comments from Amazon bestsellers page and save extracted data to a `bestsellers.csv` file.
+This program will scrape the title, link, rating, and number of comments from the Amazon bestsellers page and save extracted data to a `bestsellers.csv` file.
 
 It uses a Selenium / WebDriver method of extraction.
 
@@ -11,13 +11,17 @@ It uses a Selenium / WebDriver method of extraction.
 ```bash
 $ cargo install geckodriver
 ```
-3. Run geckodriver:
-```bash
-$ geckodriver
+3. Optionally, on X11 you can install virtual framebuffer [Xvfb](https://en.wikipedia.org/wiki/Xvfb) to hide the puppet browser: 
 ```
-4. In another terminal run:
+# On Debian/Ubuntu
+$ sudo apt install xvfb
+# On Fedora
+$ yum install xorg-x11-server-Xvfb
+```
+4. Run the app:
 ```bash
-$ cargo run 
+# This will start a virtual frame buffer :99, start geckodriver, compile, and run the scraper
+$ ./scripts/start.sh
 ```
 
-After the exctraction is finished the pupet browser will close and you'll find all extracted data in the `bestsellers.csv` file.
+After the extraction's finished you'll find all extracted data in the `bestsellers.csv` file.
