@@ -27,15 +27,8 @@ pub async fn load_elements(driver: &WebDriver) -> WebDriverResult<()> {
     .await
 }
 
-pub async fn goto_page(driver: &WebDriver, page: u8) -> WebDriverResult<()> {
-  driver
-    .goto({
-      format!(
-        "https://www.amazon.com/gp/bestsellers/pc/11036071/?pg={}",
-        page
-      )
-    })
-    .await
+pub async fn goto_page(driver: &WebDriver, category: &str, page: u8) -> WebDriverResult<()> {
+  driver.goto({ format!("{}/?pg={}", category, page) }).await
 }
 
 pub async fn fetch_all_items(

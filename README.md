@@ -18,7 +18,8 @@ $ sudo apt install xvfb
 # On Fedora
 $ yum install xorg-x11-server-Xvfb
 ```
-4. Run the app:
+4. Optionally, change the default setting in the `config.toml` file.
+5. Run the app:
 ```bash
 # This will start a virtual frame buffer :99, start geckodriver, compile, and run the scraper
 $ ./scripts/start.sh

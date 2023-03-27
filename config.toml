@@ -1,0 +1,9 @@
+[scraper]
+category = "https://www.amazon.com/gp/bestsellers/pc/11036071"
+delay = 0
+limit = 1000
+output = "bestsellers.csv"
+
+[proxy]
+enabled = false
+addr = "127.0.0.1:8080"
