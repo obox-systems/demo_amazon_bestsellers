@@ -4,17 +4,25 @@ use clap::Parser;
 use config::{Config, ConfigError, Environment, File, FileFormat};
 use serde::Deserialize;
 
+/// General application configuration.
 #[derive(Debug, Default, Deserialize)]
 pub struct AppSettings {
+  /// Configuration of the scraper.
   pub scraper: Scraper,
+  /// Optional proxy configuration. 
   pub proxy: Proxy,
 }
 
+/// Scraper configuration.
 #[derive(Debug, Deserialize)]
 pub struct Scraper {
+  /// Bestsellers category to scrape.
   pub category: String,
+  /// Delay between each page request.
   pub delay: u64,
+  /// Limit of total store items to scrape.
   pub limit: u32,
+  /// Output csv file.
   pub output: String,
 }
 
@@ -29,13 +37,17 @@ impl Default for Scraper {
   }
 }
 
+/// Proxy configuration.
 #[derive(Debug, Default, Deserialize)]
 pub struct Proxy {
+  /// Sets whether the proxy functionality enabled or not.
   pub enabled: bool,
+  /// Proxy address.
   pub addr: String,
 }
 
 impl AppSettings {
+  /// Builds application configuration from a file.
   pub fn build_from_file(file: OsString) -> Result<Self, ConfigError> {
     let path = file.as_os_str().to_str().expect("Invalid config path");
     let builder = Config::builder()
@@ -51,7 +63,7 @@ impl AppSettings {
   }
 }
 
-#[derive(Parser)]
+#[derive(Debug, Parser)]
 #[command(version, about, long_about = None)]
 /// Scrapes Amazon bestsellers page
 pub struct Args {

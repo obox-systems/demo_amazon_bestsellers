@@ -5,6 +5,7 @@ use thirtyfour::prelude::*;
 
 use crate::item::{ShopItem, ShopItemComponent};
 
+/// Scrolls through the page to load all items.
 pub async fn load_elements(driver: &WebDriver) -> WebDriverResult<()> {
   for _ in 0..2 {
     driver
@@ -27,10 +28,12 @@ pub async fn load_elements(driver: &WebDriver) -> WebDriverResult<()> {
     .await
 }
 
+/// Changes window location to the specified page.
 pub async fn goto_page(driver: &WebDriver, category: &str, page: u8) -> WebDriverResult<()> {
-  driver.goto({ format!("{}/?pg={}", category, page) }).await
+  driver.goto(format!("{}/?pg={}", category, page)).await
 }
 
+/// Iterates over all shop items on the page and returns them as a vector.
 pub async fn fetch_all_items(
   driver: &WebDriver,
   total_count: &mut u32,
@@ -52,6 +55,7 @@ pub async fn fetch_all_items(
   }
 }
 
+/// Checks if next pages if available
 pub async fn find_next_page(driver: &WebDriver) -> WebDriverResult<bool> {
   Ok(
     !driver
