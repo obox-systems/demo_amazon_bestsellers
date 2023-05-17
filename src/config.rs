@@ -9,7 +9,7 @@ use serde::Deserialize;
 pub struct AppSettings {
   /// Configuration of the scraper.
   pub scraper: Scraper,
-  /// Optional proxy configuration. 
+  /// Optional proxy configuration.
   pub proxy: Proxy,
 }
 
