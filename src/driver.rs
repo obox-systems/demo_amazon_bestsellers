@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use futures::future::join_all;
+use futures::future::try_join_all;
 use thirtyfour::prelude::*;
 
 use crate::item::{ShopItem, ShopItemComponent};
@@ -40,7 +40,7 @@ pub async fn fetch_all_items(
 ) -> WebDriverResult<Vec<ShopItem>> {
   let query = driver.query(By::Id("gridItemRoot"));
 
-  if let Ok(elems) = query.all_required().await {
+  if let Ok(elems) = query.all_from_selector_required().await {
     let mut items = vec![];
     for elem in elems.into_iter() {
       let item = ShopItemComponent::from(elem);
@@ -48,23 +48,22 @@ pub async fn fetch_all_items(
       println!("{}: Shop item `{}`", total_count, item.get_title().await?);
       items.push(ShopItem::from(item));
     }
-    Ok(join_all(items).await)
+    try_join_all(items).await
   } else {
     eprintln!("Failed to find shop items!");
     Ok(vec![])
   }
 }
 
-/// Checks if next pages if available
+/// Checks if next page is available.
 pub async fn find_next_page(driver: &WebDriver) -> WebDriverResult<bool> {
-  Ok(
-    !driver
-      .query(By::ClassName("a-last"))
-      .first()
-      .await?
-      .class_name()
-      .await?
-      .unwrap()
-      .contains("a-disabled"),
-  )
+  let class_name = driver
+    .query(By::ClassName("a-last"))
+    .first()
+    .await?
+    .class_name()
+    .await?;
+
+  // If no class name or doesn't contain "a-disabled", next page is available
+  Ok(!class_name.is_some_and(|c| c.contains("a-disabled")))
 }

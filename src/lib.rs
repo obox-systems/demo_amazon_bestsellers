@@ -11,5 +11,6 @@ pub mod config;
 /// Handles the Webdriver scraping process.
 pub mod driver;
 
+#[allow(missing_docs)] // Component derive macro generates undocumented impl block
 /// Store item model.
 pub mod item;
